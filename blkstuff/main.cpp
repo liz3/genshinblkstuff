@@ -144,7 +144,7 @@ void kinda_expand_round_keys(uint8_t* round_keys)
 }
 
 // This function is not exported, so hackaround it
-extern "C" void oqs_aes128_enc_c(const uint8_t *plaintext, const void *_schedule, uint8_t *ciphertext);
+extern "C" void oqs_mhy128_enc_c(const uint8_t *plaintext, const void *_schedule, uint8_t *ciphertext);
 
 void key_scramble2(uint8_t* key) {
     uint8_t round_keys[11*16] = {0};
@@ -153,7 +153,7 @@ void key_scramble2(uint8_t* key) {
 
     uint8_t chip[16];
 
-    oqs_aes128_enc_c(key, round_keys, chip);
+    oqs_mhy128_enc_c(key, round_keys, chip);
 
     memcpy(key, chip, 16);
 }
