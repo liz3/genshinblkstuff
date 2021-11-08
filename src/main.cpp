@@ -91,7 +91,7 @@ void aes_expand_round_keys(uint8_t* round_keys, const uint8_t* seed)
     };
 
     auto sub_word = [](uint32_t word) {
-        return 
+        return
           lookup_sbox[ word        & 0xFF]       |
           lookup_sbox[(word >>  8) & 0xFF] <<  8 |
           lookup_sbox[(word >> 16) & 0xFF] << 16 |
@@ -360,14 +360,14 @@ int extract_blk(char* in_filename, const char* out_format) {
 
     fseek(blk_file, 0, SEEK_END);
     size_t size = ftell(blk_file) - sizeof(blk_header);
-    fseek(blk_file, sizeof(blk_header), SEEK_SET); // skip header 
+    fseek(blk_file, sizeof(blk_header), SEEK_SET); // skip header
 
     auto* data = new uint8_t[size];
     fread(data, size, 1, blk_file);
     fclose(blk_file);
 
     uint8_t xorpad[4096] = {};
-    create_decrypt_vector(hdr.key1, data, std::min((uint64_t)hdr.block_size, sizeof(xorpad)), xorpad, sizeof(xorpad));
+    create_decrypt_vector(hdr.key1, data, std::min((uint64_t)hdr.block_size, (uint64_t)sizeof(xorpad)), xorpad, sizeof(xorpad));
     for (int i = 0; i < size; i++)
         data[i] ^= xorpad[i & 0xFFF];
     //dump_to_file("decrypted.bin", data, size);
