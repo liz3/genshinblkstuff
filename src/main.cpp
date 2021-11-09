@@ -449,6 +449,6 @@ int main(int argc, char** argv) {
               cout << "ok" << endl;
         }
     } else {
-        extract_blk(argv[1], "output%d.bin");
+        extract_blk(argv[1], "dump/output%d.bin");
     }
 }

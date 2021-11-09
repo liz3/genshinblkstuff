@@ -166,7 +166,7 @@ static void xor (byte * a, const byte *b, int n) {
 }
 
     // Xor the current cipher state by a specific round key
-    static void xor_round_key(byte *state, const byte *keys, int round) {
+static void xor_round_key(byte *state, const byte *keys, int round) {
 	xor(state, keys + round * 16, 16);
 }
 
