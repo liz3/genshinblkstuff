@@ -12,3 +12,5 @@ if(APPLE)
   target_link_directories(genshin-unpack PUBLIC /opt/homebrew/Cellar/lz4/1.9.3/lib)
 endif()
 target_link_libraries(genshin-unpack genshin-aes lz4 c)
+
+add_executable(bc7_to_rgb bc7/main.cc bc7/bcn.cc)

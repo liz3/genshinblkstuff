@@ -272,6 +272,17 @@ void mhy0_extract(const char* out_format, int block_index, uint8_t* input, size_
     //cout << "cab count: 0x" << hex << cab_count << endl;
     //auto entry_count = MAKE_UINT32(decomp_output, 0x119 + 2, 0x119 + 4, 0x119, 0x119 + 5);
     auto entry_count = MAKE_UINT32(decomp_output, cab_count * 0x113 + 6 + 2, cab_count * 0x113 + 6 + 4, cab_count * 0x113 + 6, cab_count * 0x113 + 6 + 5);
+
+    std::string name;
+    int x = 6;
+    while(true) {
+      uint8_t index = decomp_output[x];
+      if(index == 0)
+        break;
+      name += (char)index;
+      x++;
+    }
+    std::cout << name << "\n";
     //cout << "entry count: 0x" << hex << entry_count << endl;
     //dump_to_file("bruh.bin", decomp_output, decomp_size);
     //hexdump("asdf", decomp_output, decomp_size);
@@ -285,7 +296,7 @@ void mhy0_extract(const char* out_format, int block_index, uint8_t* input, size_
     uint8_t* entry_ptr = input + 0x8 + size;
     char filename[0x100] = {};
     //cout << out_format << endl;
-    snprintf(filename, sizeof(filename), out_format, block_index);
+    snprintf(filename, sizeof(filename), out_format, block_index, name.c_str());
     auto* output = fopen(filename, "wb");
     if (!output) {
         cout << "failed to open " << filename << endl;
@@ -449,6 +460,6 @@ int main(int argc, char** argv) {
               cout << "ok" << endl;
         }
     } else {
-        extract_blk(argv[1], "dump/output%d.bin");
+        extract_blk(argv[1], "dump/output%d_%s.bin");
     }
 }
