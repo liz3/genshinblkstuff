@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    restart: always
+    container_name: 'genshin-db'
+    environment:
+      - POSTGRES_DB=genshindata
+      - POSTGRES_USER=genshin
+      - POSTGRES_PASSWORD=test123
+    ports:
+      - "3070:5432"
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data

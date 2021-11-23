@@ -401,3 +401,7 @@ FodyWeavers.xsd
 blkstuff/blkstuff
 build
 dump
+
+AssetExtractor/bin
+AssetExtractor/obj
+pg-data

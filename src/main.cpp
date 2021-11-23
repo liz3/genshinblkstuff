@@ -282,7 +282,7 @@ void mhy0_extract(const char* out_format, int block_index, uint8_t* input, size_
       name += (char)index;
       x++;
     }
-    std::cout << name << "\n";
+    std::cout << name << ":" << out_format << "\n";
     //cout << "entry count: 0x" << hex << entry_count << endl;
     //dump_to_file("bruh.bin", decomp_output, decomp_size);
     //hexdump("asdf", decomp_output, decomp_size);
@@ -292,11 +292,11 @@ void mhy0_extract(const char* out_format, int block_index, uint8_t* input, size_
         //cout << "0x" << hex << MAKE_UINT32(decomp_output, 2, 4, 0, 5) << endl;
         //exit(1);
     //}
-
+    name = name.substr(4);
     uint8_t* entry_ptr = input + 0x8 + size;
     char filename[0x100] = {};
     //cout << out_format << endl;
-    snprintf(filename, sizeof(filename), out_format, block_index, name.c_str());
+    snprintf(filename, sizeof(filename), out_format, name.c_str());
     auto* output = fopen(filename, "wb");
     if (!output) {
         cout << "failed to open " << filename << endl;
@@ -450,11 +450,11 @@ int main(int argc, char** argv) {
             cout << "processing " << p << "... ";
 
             auto input_path = base_path / p;
-            auto output_path = (output_base / p).replace_extension(".%d.bin");
+            auto output_path = (output_base / std::string("cab-%s"));
             auto output_dir = std::filesystem::path(output_path).remove_filename();
             //cout << output_path << endl;
             std::filesystem::create_directories(output_dir);
-            int ret = extract_blk((char*)input_path.generic_string().c_str(), output_path.generic_string().c_str());
+            int ret = extract_blk((char*)input_path.generic_string().c_str(), std::string(output_path.generic_string()).c_str());
 
             if (!ret)
               cout << "ok" << endl;

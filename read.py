@@ -327,19 +327,21 @@ for folder in listdir(path):
             out["file_path"] = full_path
             # print(json.dumps(out, indent=4))
             for entry in out["objects"]:
-                if entry["class_id"] == 28:
-                    result = read_img(as_stream(read_entry(full_path, entry["byte_start"], entry["byte_size"])), out, full_path)
-                    if result["format"] == 4 and "img_data" in result:
-                        try:
-                            img = Image.frombytes(mode="RGBA", data=result["img_data"], size=(result["width"], result["height"]))
-                            img.save(join(sys.argv[2], str(count) + ".png"))
-                        except ValueError:
-                            pass
-                    elif result["format"] == 25 and "img_data" in result:
-                        with open(join(sys.argv[3], str(count) + ".bin"), "wb") as ff:
-                            ff.write(pack("<I", result["width"]))
-                            ff.write(pack("<I", result["height"]))
-                            ff.write(result["img_data"])
-                    count += 1
+                if entry["class_id"] == 43:
+                    print(full_path)
+                # if entry["class_id"] == 28:
+                #     result = read_img(as_stream(read_entry(full_path, entry["byte_start"], entry["byte_size"])), out, full_path)
+                #     if result["format"] == 4 and "img_data" in result:
+                #         try:
+                #             img = Image.frombytes(mode="RGBA", data=result["img_data"], size=(result["width"], result["height"]))
+                #             img.save(join(sys.argv[2], str(count) + ".png"))
+                #         except ValueError:
+                #             pass
+                #     elif result["format"] == 25 and "img_data" in result:
+                #         with open(join(sys.argv[3], str(count) + ".bin"), "wb") as ff:
+                #             ff.write(pack("<I", result["width"]))
+                #             ff.write(pack("<I", result["height"]))
+                #             ff.write(result["img_data"])
+                #     count += 1
 out = {k: v for k, v in sorted(types.items(), reverse=True, key=lambda item: item[1])}
 print(json.dumps(out, indent=4))
